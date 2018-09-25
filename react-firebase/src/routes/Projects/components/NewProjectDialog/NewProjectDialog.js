@@ -1,0 +1,65 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import TextField from '@material-ui/core/TextField'
+
+import classes from './NewProjectDialog.scss'
+
+export default class NewProjectDialog extends Component {
+  static propTypes = {
+    open: PropTypes.bool,
+    onCreateClick: PropTypes.func.isRequired
+  }
+
+  handleInputChange = e => {
+    e.preventDefault()
+    this.setState({
+      name: e.target.value,
+      error: null
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    if (!this.state.name) {
+      return this.setState({
+        error: 'Name is required'
+      })
+    }
+    if (this.props && this.props.onCreateClick) {
+      this.props.onCreateClick(this.state.name)
+      this.props.onRequestClose()
+    }
+  }
+
+  render() {
+    const { open, onRequestClose } = this.props
+    const { error } = this.state
+
+    return (
+      <Dialog
+        title="New Project"
+        open={open}
+        onRequestClose={onRequestClose}
+        contentClassName={classes.container}
+        actions={[
+          <FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
+          <FlatButton label="Create" primary onTouchTap={this.handleSubmit} />
+        ]}>
+        <div className={classes.inputs}>
+          <TextField
+            hintText="exampleProject"
+            floatingLabelText="Project Name"
+            ref="projectNameField"
+            onChange={this.handleInputChange}
+            errorText={error || null}
+          />
+        </div>
+      </Dialog>
+    )
+  }
+}

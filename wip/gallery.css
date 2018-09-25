@@ -1,0 +1,113 @@
+.about {
+    background-image: url("img/img2.jpg");
+}
+
+.projects {
+    background-color: #111;
+}
+
+
+/*  */
+/*  */
+/*  */
+
+.about, .portfolio, .projects {
+    background-color: white;
+    color: #222;
+    min-height: 75vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+}
+
+.projects {
+    background-image: url("img4.jpg");
+}
+
+
+
+.project-board, .project-board1 {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-content: space-around;
+    margin-top: 40px;
+    text-align: left;
+}
+.project-board1 {
+    z-index: 0;
+}
+
+.project {
+    letter-spacing: 3pt;
+    padding: 0;
+    margin: 0 0 50px;
+    object-fit: contain;
+    overflow: hidden;
+    color: black; 
+}
+.project-board1 .project {
+    color: white;
+}
+.project-img {
+    background-color: rgb(247, 115, 8);
+    height: 300px;
+    width: 300px;
+    margin: 0;
+    padding: 0;
+}
+.project-img img {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 1s;
+}
+.project-board1 .project-img img {
+    z-index: 2;
+}
+.project-board2 .project-img img {
+    z-index: 13;
+}
+.project-img p, .project-img a {
+    /* display: block; remove? */
+    position: relative;
+    top: -300px;
+    padding: 10px 20px;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+.project-board1 h4 {
+    background-color: rgb(247, 115, 8);
+    padding: 4px;
+}
+.project-tag {
+    padding: 1px 4px;
+    background-color: rgb(247, 115, 8);
+}
+.project-board1 p, .project-board1 a {
+    z-index: 1;
+    color: white;
+}
+.project-board2 .project-img p, .project-board2 .project-img a {
+    z-index: 12;
+}
+.project-img p {
+    color: white;
+    margin-bottom: 90px;
+}
+.project-img a {
+    display: inline;
+    text-decoration: none;
+    letter-spacing: 1pt;
+    color: rgba(255, 255, 255, .6);
+}
+.project-img a:hover {
+    color: rgba(255, 255, 255, 1);
+}
+.project-img:hover img {
+    left: 100%;
+    transition: 1s;
+}
