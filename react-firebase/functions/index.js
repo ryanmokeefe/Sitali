@@ -4,7 +4,7 @@ const admin = require('firebase-admin')
 const functions = require('firebase-functions')
 
 //
-var serviceAccount = require('path/to/serviceAccountKey.json');
+var serviceAccount = require('../kush-music-firebase-adminsdk-oni6i-e2895c7885.json');
 
 
 // Initialize Firebase so it is available within functions

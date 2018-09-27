@@ -2,7 +2,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { LIST_PATH } from 'constants'
 import { withHandlers, withStateHandlers, pure } from 'recompose'
-import {  } from 'react-redux-firebase'
+import { firebaseConnect } from 'react-redux-firebase'
 import { withNotifications } from 'modules/notification'
 import { withRouter, spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
@@ -15,7 +15,16 @@ export default compose(
   // Wait for uid to exist before going further
   spinnerWhileLoading(['uid']),
   // Create listeners based on current users UID
-  
+  firebaseConnect(({ params, uid }) => [
+    {
+      path: 'projects',
+      queryParams: ['orderByChild=createdBy', `equalTo=${uid}`]
+    }
+  ]),
+  // Map projects from state to props
+  connect(({ firebase: { ordered } }) => ({
+    projects: ordered.projects
+  })),
   // Show loading spinner while projects and collabProjects are loading
   spinnerWhileLoading(['projects']),
   // Add props.router
@@ -38,11 +47,16 @@ export default compose(
   // Add handlers as props
   withHandlers({
     addProject: props => newInstance => {
-      const { , uid, showError, showSuccess, toggleDialog } = props
+      const { firebase, uid, showError, showSuccess, toggleDialog } = props
       if (!uid) {
         return showError('You must be logged in to create a project')
       }
-      return 
+      return firebase
+        .push('projects', {
+          ...newInstance,
+          createdBy: uid,
+          createdAt: firebase.database.ServerValue.TIMESTAMP
+        })
         .then(() => {
           toggleDialog()
           showSuccess('Project added successfully')
@@ -54,8 +68,9 @@ export default compose(
         })
     },
     deleteProject: props => projectId => {
-      const { , showError, showSuccess } = props
-      return 
+      const { firebase, showError, showSuccess } = props
+      return firebase
+        .remove(`projects/${projectId}`)
         .then(() => showSuccess('Project deleted successfully'))
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console

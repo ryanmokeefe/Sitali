@@ -31,10 +31,10 @@ export const ProjectsPage = ({
         {!isEmpty(projects) &&
           projects.map((project, ind) => (
             <ProjectTile
-              key={`Project-${}-${ind}`}
-              name={}
-              onSelect={() => goToProject()}
-              onDelete={() => deleteProject()}
+              key={`Project-${project.key}-${ind}`}
+              name={project.value.name}
+              onSelect={() => goToProject(project.key)}
+              onDelete={() => deleteProject(project.key)}
             />
           ))}
       </div>
